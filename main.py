@@ -1,4 +1,5 @@
 from base_de_datos import *
+from consultas import *
 
 if __name__ == "__main__":
     
@@ -11,5 +12,6 @@ if __name__ == "__main__":
     
     vaciar_base_de_datos(tx)
     rellenar_base_de_datos(tx)
+    probar_consultas(tx)
     
     tx.close()
