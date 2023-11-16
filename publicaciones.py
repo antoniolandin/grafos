@@ -1,6 +1,6 @@
 # Description: Funciones para crear y obtener publicaciones
 
-def crear_publicacion(tx, nombre: str, usuarios_mencionados: list, publicacion: str, fecha: str):
+def crear_publicacion(tx, nombre: str, usuarios_mencionados: list, publicacion: str, fecha: str) -> None:
     
     # creamos un nodo de tipo publicacion que tiene como atributos la publicacion y la fecha
     

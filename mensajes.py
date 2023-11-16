@@ -1,6 +1,6 @@
 # Description: Funciones para crear y obtener mensajes entre usuarios
 
-def crear_mensaje(tx, nombre1, nombre2, mensaje, fecha):   
+def crear_mensaje(tx, nombre1, nombre2, mensaje, fecha) -> None:   
     # creamos un nodo de tipo mensaje que tiene como atributos el mensaje y la fecha
         
     tx.run("CREATE (a:Mensaje {mensaje: $mensaje, fecha: $fecha})", mensaje=mensaje, fecha=fecha)
@@ -18,7 +18,7 @@ def crear_mensaje(tx, nombre1, nombre2, mensaje, fecha):
             "MERGE (b)-[:RECIBE_MENSAJE]->(a)",
             nombre2=nombre2, mensaje=mensaje, fecha=fecha)
 
-def obtener_conversacion(tx, nombre1, nombre2):
+def obtener_conversacion(tx, nombre1, nombre2) -> list:
     # obtenemos los mensajes que se enviaron entre los dos usuarios
     
     mensajes_nombre1 = tx.run("MATCH (a:Usuario {nombre: $nombre1})-[:ENVIA_MENSAJE]->(b:Mensaje)-[:RECIBE_MENSAJE]->(c:Usuario {nombre: $nombre2}) "
@@ -51,9 +51,8 @@ def obtener_conversacion(tx, nombre1, nombre2):
     
     return mensajes    
     
-
 # Muestra los mensajes entre dos ususarios a partir de cierta fecha        
-def obtener_conversacion_fecha(tx, nombre1, nombre2, fecha):
+def obtener_conversacion_fecha(tx, nombre1, nombre2, fecha) -> list:
     # obtenemos los mensajes que se enviaron entre los dos usuarios a partir de cierta fecha
     
     mensajes_nombre1 = tx.run("MATCH (a:Usuario {nombre: $nombre1})-[:ENVIA_MENSAJE]->(b:Mensaje)-[:RECIBE_MENSAJE]->(c:Usuario {nombre: $nombre2}) "

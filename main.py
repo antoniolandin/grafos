@@ -4,7 +4,6 @@ from publicaciones import *
 from mensajes import *
 
 if __name__ == "__main__":
-    
     # Obtener URI y AUTH desde archivo de credenciales
     
     with open("credenciales.txt", "r") as f:
@@ -37,7 +36,7 @@ if __name__ == "__main__":
     
     # Crear usuarios
     
-    usuarios = ["Pedro", "Juan", "Joaquín", "María"]
+    usuarios = ["Pedro", "Juan", "Joaquín", "María", "Sergio"]
     
     for usuario in usuarios:
         crear_usuario(tx, usuario)
@@ -49,6 +48,8 @@ if __name__ == "__main__":
     # Crear familiares
     
     crear_familiar(tx, "Joaquín", "María")
+    crear_familiar(tx, "María", "Sergio")
+    crear_familiar(tx, "Pedro", "Joaquín")
     
     # Crear publicaciones
     
@@ -61,20 +62,24 @@ if __name__ == "__main__":
     crear_mensaje(tx, "Pedro", "Juan", "¿Cómo estás?", "2020-01-01 00:00:02")
     crear_mensaje(tx, "Juan", "Pedro", "Bien, ¿y tú?", "2020-01-01 00:00:03")
     
+    # Obtener los amigos y familiares de un usuario determinado
     
-    # Obtener amigos
+    print("Amigos y familiares de Pedro:", obtener_amigos_familiares(tx, "Pedro"))
     
-    print("Amigos de Pedro:", obtener_amigos(tx, "Pedro"))
+    # Obtener los familiares de los familiares de un usuario determinado
     
-    # Obtener familiares
+    print("Familiares de familiares de Joaquín:", obtener_familiares_familiares(tx, "Joaquín"))
     
-    print("Familiares de Joaquín:", obtener_familiares(tx, "Joaquín"))
+    # Obtener todos los mensajes enviados de un usuario determinado a otro usuario determinado después de una fecha especificada
     
-    # Obtener publicaciones
+    conversacion = obtener_conversacion_fecha(tx, "Pedro", "Juan", "2020-01-01 00:00:02")
     
-    print("Publicaciones de Pedro:", obtener_publicaciones(tx, "Pedro"))
+    print("Conversación entre Pedro y Juan a partir de 2020-01-01 00:00:02")
     
-    # Obtener conversación
+    for mensaje in conversacion:
+        print(mensaje["fecha"], mensaje["mensaje"])
+    
+    # Obtener la conversación completa entre dos usuarios determinados
     
     conversacion = obtener_conversacion(tx, "Pedro", "Juan")
     
@@ -83,13 +88,9 @@ if __name__ == "__main__":
     for mensaje in conversacion:
         print(mensaje["fecha"], mensaje["mensaje"])
     
-    # Obtener conversación a partir de cierta fecha
+    # Obtener todos los usuarios mencionados por un usuario determinado los cuales tengan una relación laboral con el usuario que los mencionó
     
-    conversacion = obtener_conversacion_fecha(tx, "Pedro", "Juan", "2020-01-01 00:00:02")
+    crear_relacion_laboral(tx, "Pedro", "Sergio")
     
-    print("Conversación entre Pedro y Juan a partir de 2020-01-01 00:00:02")
-    
-    for mensaje in conversacion:
-        print(mensaje["fecha"], mensaje["mensaje"])
     
     tx.close()
