@@ -107,9 +107,21 @@ def consulta_5(tx, nombre) -> list:
     return usuarios
 
 # Obtener los usuarios(terceros) que sin tener relación con usuarios(primeros) tienen relación con usuarios(segundos) que si tienen relación con los primeros
-def consulta_6(tx,) -> list:
+def consulta_6(tx, nombre) -> list:
 
-    return 1
+    result = tx.run("MATCH (a:User)-[]-(c:User {nombre: $nombre}) "
+                    "WHERE NOT (a)-[]-(c) "
+                    "AND a <> c" 
+                    "WITH a, c "
+                    "MATCH (a)-[]-(b:User)-[ENVIAR_MENSAJE]-(c) "
+                    "WHERE count(ENVIAR_MENSAJE) > 5 "
+                    "RETURN a, b, c, count(ENVIAR_MENSAJE) "
+                    "ORDER BY count(ENVIAR_MENSAJE) DESC;",
+                    nombre=nombre)
+    
+    usuarios = [record["nombre"] for record in result]
+
+    return usuarios
 
 def probar_consultas(tx):
     print("Probando consultas...\n")
