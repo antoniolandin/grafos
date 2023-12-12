@@ -106,6 +106,11 @@ def consulta_5(tx, nombre) -> list:
     
     return usuarios
 
+# Obtener los usuarios(terceros) que sin tener relación con usuarios(primeros) tienen relación con usuarios(segundos) que si tienen relación con los primeros
+def consulta_6(tx,) -> list:
+
+    return 1
+
 def probar_consultas(tx):
     print("Probando consultas...\n")
     
